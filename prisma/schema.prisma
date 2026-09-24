@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Pekerjaan {
+  id                    Int       @id @default(autoincrement())
+  pic                   String?
+  uraian_pekerjaan      String
+  nomor_rab             String?
+  nilai_rab             Float?
+  nilai_kontrak         Float?
+  jenis_pekerjaan       String?
+  progress_pekerjaan    String?
+  vendor                String?
+  tanggal_awal_kontrak  DateTime?
+  tanggal_akhir_kontrak DateTime?
+  durasi_kontrak        Int?
+  nomor_kontrak         String?
+  nomor_amandemen       String?
+  tanggal_amandemen     DateTime?
+  nomor_bastp           String?
+  tanggal_bastp         DateTime?
+  purchase_request      String?
+  purchase_order        String?
+  anggaran              String?
+  status                String?   @default("BELUM KONTRAK")
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  poTermin              PoTermin[]
+}
+
+model PoTermin {
+  id          Int       @id @default(autoincrement())
+  pekerjaanId Int
+  urutan      Int
+  nomor       String?
+  nilai       Float?
+  pekerjaan   Pekerjaan @relation(fields: [pekerjaanId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  role     String
+}
