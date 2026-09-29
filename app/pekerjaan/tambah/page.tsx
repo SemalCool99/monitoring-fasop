@@ -1,5 +1,6 @@
 import { tambahPekerjaan } from "../actions";
 import PoTerminEditor from "../../../components/PoTerminEditor";
+import Script from "next/script";
 
 const input = "bg-white border border-gray-300 p-2 w-full mt-1 rounded-lg dark:bg-slate-800 dark:border-slate-700";
 const label = "block text-sm font-semibold text-gray-600 dark:text-slate-300";
@@ -51,8 +52,8 @@ export default function TambahPekerjaan() {
           </select>
         </div>
         <div>
-          <label className={label}>Progress Pekerjaan</label>
-          <input name="progress_pekerjaan" className={input} />
+          <label className={label}>Progress Pekerjaan (%)</label>
+          <input id="progress" name="progress_pekerjaan" readOnly className={`${input} bg-gray-100 dark:bg-slate-700 cursor-not-allowed`} placeholder="Otomatis terisi" />
         </div>
         <div>
           <label className={label}>Vendor</label>
@@ -60,11 +61,11 @@ export default function TambahPekerjaan() {
         </div>
         <div>
           <label className={label}>Tanggal Awal Kontrak</label>
-          <input name="tanggal_awal_kontrak" type="date" className={input} />
+          <input id="tglAwal" name="tanggal_awal_kontrak" type="date" className={input} onChange={(e) => (window as any).hitungProgress?.()} />
         </div>
         <div>
           <label className={label}>Tanggal Akhir Kontrak</label>
-          <input name="tanggal_akhir_kontrak" type="date" className={input} />
+          <input id="tglAkhir" name="tanggal_akhir_kontrak" type="date" className={input} onChange={(e) => (window as any).hitungProgress?.()} />
         </div>
         <div>
           <label className={label}>Durasi Kontrak (hari)</label>
@@ -113,6 +114,30 @@ export default function TambahPekerjaan() {
           <a href="/pekerjaan" className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700">Batal</a>
         </div>
       </form>
+
+      <Script id="hitung-progress">
+        {`
+          function hitungProgress() {
+            const awal = document.getElementById('tglAwal').value;
+            const akhir = document.getElementById('tglAkhir').value;
+            const inputProgress = document.getElementById('progress');
+            if (!awal || !akhir) {
+              inputProgress.value = '';
+              return;
+            }
+            const tglAwal = new Date(awal);
+            const tglAkhir = new Date(akhir);
+            const sekarang = new Date();
+            const totalHari = (tglAkhir - tglAwal) / (1000 * 60 * 60 * 24);
+            const hariBerjalan = (sekarang - tglAwal) / (1000 * 60 * 60 * 24);
+            let progress = (hariBerjalan / totalHari) * 100;
+            if (progress < 0) progress = 0;
+            if (progress > 100) progress = 100;
+            inputProgress.value = progress.toFixed(1);
+          }
+          window.hitungProgress = hitungProgress;
+        `}
+      </Script>
     </div>
   );
 }
