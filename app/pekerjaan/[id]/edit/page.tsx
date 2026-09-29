@@ -78,11 +78,11 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
         </div>
         <div>
           <label className={label}>Tanggal Awal Kontrak</label>
-          <input id="tglAwal" name="tanggal_awal_kontrak" type="date" defaultValue={tglIn(p.tanggal_awal_kontrak)} className={input} onChange={(e) => (window as any).hitungProgress?.()} />
+          <input id="tglAwal" name="tanggal_awal_kontrak" type="date" defaultValue={tglIn(p.tanggal_awal_kontrak)} className={input} />
         </div>
         <div>
           <label className={label}>Tanggal Akhir Kontrak</label>
-          <input id="tglAkhir" name="tanggal_akhir_kontrak" type="date" defaultValue={tglIn(p.tanggal_akhir_kontrak)} className={input} onChange={(e) => (window as any).hitungProgress?.()} />
+          <input id="tglAkhir" name="tanggal_akhir_kontrak" type="date" defaultValue={tglIn(p.tanggal_akhir_kontrak)} className={input} />
         </div>
         <div>
           <label className={label}>Durasi Kontrak (hari)</label>
@@ -135,26 +135,34 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
       <Script id="hitung-progress-edit">
         {`
           function hitungProgress() {
-            const awal = document.getElementById('tglAwal').value;
-            const akhir = document.getElementById('tglAkhir').value;
-            const inputProgress = document.getElementById('progress');
-            if (!awal || !akhir) {
-              return;
-            }
-            const tglAwal = new Date(awal);
-            const tglAkhir = new Date(akhir);
-            const sekarang = new Date();
-            const totalHari = (tglAkhir - tglAwal) / (1000 * 60 * 60 * 24);
-            if (totalHari <= 0) return;
-            const hariBerjalan = (sekarang - tglAwal) / (1000 * 60 * 60 * 24);
-            let progress = (hariBerjalan / totalHari) * 100;
+            var awalEl = document.getElementById('tglAwal');
+            var akhirEl = document.getElementById('tglAkhir');
+            var progressEl = document.getElementById('progress');
+            if (!awalEl || !akhirEl || !progressEl) return;
+            if (!awalEl.value || !akhirEl.value) return;
+            var tglAwal = new Date(awalEl.value);
+            var tglAkhir = new Date(akhirEl.value);
+            var sekarang = new Date();
+            var totalHari = (tglAkhir - tglAwal) / (1000 * 60 * 60 * 24);
+            if (totalHari <= 0) { progressEl.value = '100'; return; }
+            var hariBerjalan = (sekarang - tglAwal) / (1000 * 60 * 60 * 24);
+            var progress = (hariBerjalan / totalHari) * 100;
             if (progress < 0) progress = 0;
             if (progress > 100) progress = 100;
-            inputProgress.value = progress.toFixed(1);
+            progressEl.value = progress.toFixed(1);
           }
-          window.hitungProgress = hitungProgress;
-          // Hitung otomatis saat halaman dibuka
-          document.addEventListener('DOMContentLoaded', hitungProgress);
+          function initProgress() {
+            var a = document.getElementById('tglAwal');
+            var b = document.getElementById('tglAkhir');
+            if (a) a.addEventListener('change', hitungProgress);
+            if (b) b.addEventListener('change', hitungProgress);
+            hitungProgress();
+          }
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initProgress);
+          } else {
+            initProgress();
+          }
         `}
       </Script>
     </div>
