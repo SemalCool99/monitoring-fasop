@@ -15,7 +15,9 @@ const badge = (s: string | null, warna: Record<string, string>) => {
   return <span className={`px-2 py-1 rounded-full text-xs whitespace-nowrap ${w}`}>{s}</span>;
 };
 
-const badgeSisa = (d: Date | null) => {
+const badgeSisa = (d: Date | null, status: string | null) => {
+  if (status === "SELESAI" || status === "BAST SELESAI")
+    return <span className="text-gray-400 dark:text-slate-500">-</span>;
   if (!d) return <span className="text-gray-400 dark:text-slate-500">-</span>;
   const s = Math.ceil((d.getTime() - Date.now()) / 86400000);
   const w =
@@ -167,7 +169,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
                 <td className={`${td} text-right whitespace-nowrap`}>{rp(p.nilai_kontrak)}</td>
                 <td className={`${td} whitespace-nowrap`}>{tgl(p.tanggal_awal_kontrak)}</td>
                 <td className={`${td} whitespace-nowrap`}>{tgl(p.tanggal_akhir_kontrak)}</td>
-                <td className={`${td} text-center`}>{badgeSisa(p.tanggal_akhir_kontrak)}</td>
+                <td className={`${td} text-center`}>{badgeSisa(p.tanggal_akhir_kontrak, p.status)}</td>
                 <td className={td}>{badge(p.status, WARNA_STATUS)}</td>
                 {admin && (
                   <td className={`${td} text-center whitespace-nowrap`}>
