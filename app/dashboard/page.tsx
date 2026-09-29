@@ -1,29 +1,47 @@
 import { prisma } from "../../lib/prisma";
 import { Wallet, FileText, Activity, CheckCircle2, AlertTriangle } from "lucide-react";
 import Grafik from "../../components/Grafik";
+import FilterTahunDashboard from "../../components/FilterTahunDashboard";
 
 const rp = (n: number | null | undefined) => "Rp " + (n ?? 0).toLocaleString("id-ID");
 const tgl = (d: Date | null) =>
   d ? d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }) : "-";
 
-export default async function Dashboard() {
+export default async function Dashboard({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
+  const sp = await searchParams;
+  const fTahun = sp.tahun !== undefined ? sp.tahun : String(new Date().getFullYear());
+  
   const semua = await prisma.pekerjaan.findMany();
+  
+  const daftarTahun = [...new Set(
+    semua
+      .map((p) => p.tanggal_awal_kontrak?.getFullYear())
+      .filter((y): y is number => y !== undefined)
+  )].sort((a, b) => b - a);
+  
+  const tersaring = fTahun && fTahun !== ""
+    ? semua.filter((p) => {
+        const tgl = p.tanggal_awal_kontrak;
+        if (!tgl) return false;
+        return tgl.getFullYear().toString() === fTahun;
+      })
+    : semua;
 
-  const totalRab = semua.reduce((a, p) => a + (p.nilai_rab ?? 0), 0);
-  const totalKontrak = semua.reduce((a, p) => a + (p.nilai_kontrak ?? 0), 0);
-  const selesai = semua.filter((p) => p.status === "SELESAI").length;
-  const aktif = semua.length - selesai;
+  const totalRab = tersaring.reduce((a, p) => a + (p.nilai_rab ?? 0), 0);
+  const totalKontrak = tersaring.reduce((a, p) => a + (p.nilai_kontrak ?? 0), 0);
+  const selesai = tersaring.filter((p) => p.status === "SELESAI").length;
+  const aktif = tersaring.length - selesai;
 
   const perPic = new Map<string, number>();
-  semua.forEach((p) => perPic.set(p.pic ?? "-", (perPic.get(p.pic ?? "-") ?? 0) + (p.nilai_kontrak ?? 0)));
+  tersaring.forEach((p) => perPic.set(p.pic ?? "-", (perPic.get(p.pic ?? "-") ?? 0) + (p.nilai_kontrak ?? 0)));
   const bar = [...perPic.entries()].map(([name, total]) => ({ name, total }));
 
   const perStatus = new Map<string, number>();
-  semua.forEach((p) => perStatus.set(p.status ?? "-", (perStatus.get(p.status ?? "-") ?? 0) + 1));
+  tersaring.forEach((p) => perStatus.set(p.status ?? "-", (perStatus.get(p.status ?? "-") ?? 0) + 1));
   const pie = [...perStatus.entries()].map(([name, value]) => ({ name, value }));
 
   const perPicDetail = new Map<string, { jumlah: number; rab: number; kontrak: number }>();
-  semua.forEach((p) => {
+  tersaring.forEach((p) => {
     const k = p.pic ?? "-";
     const cur = perPicDetail.get(k) ?? { jumlah: 0, rab: 0, kontrak: 0 };
     cur.jumlah += 1;
@@ -34,7 +52,7 @@ export default async function Dashboard() {
   const ringkasan = [...perPicDetail.entries()].map(([pic, v]) => ({ pic, ...v }));
 
   const sekarang = new Date();
-  const peringatan = semua
+  const peringatan = tersaring
     .filter((p) => p.tanggal_akhir_kontrak && p.status !== "SELESAI")
     .map((p) => ({
       p,
@@ -52,7 +70,11 @@ export default async function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
+      <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
+        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <FilterTahunDashboard tahun={fTahun} daftarTahun={daftarTahun} />
+      </div>
+      
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kartu.map((k) => (
           <div key={k.label} className={`bg-gradient-to-br ${k.grad} text-white rounded-xl p-4 flex items-center gap-3 shadow-lg`}>

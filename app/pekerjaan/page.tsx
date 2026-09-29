@@ -54,7 +54,10 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
   const fPic = sp.pic ?? "";
   const fStatus = sp.status ?? "";
   const fAnggaran = sp.anggaran ?? "";
-  const fTahun = sp.tahun ?? "";
+  
+  // Default ke tahun sekarang jika param 'tahun' tidak ada di URL
+  const fTahun = sp.tahun !== undefined ? sp.tahun : String(new Date().getFullYear());
+  
   const page = Math.max(1, Number(sp.page ?? 1));
   const perPage = 10;
 
@@ -65,7 +68,6 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
   const daftarPic = [...new Set(semua.map((p) => p.pic).filter(Boolean))] as string[];
   const daftarStatus = [...new Set(semua.map((p) => p.status).filter(Boolean))] as string[];
   
-  // Ambil daftar tahun unik dari tanggal_awal_kontrak
   const daftarTahun = [...new Set(
     semua
       .map((p) => p.tanggal_awal_kontrak?.getFullYear())
