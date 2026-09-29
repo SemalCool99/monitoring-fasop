@@ -61,7 +61,11 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
         </div>
         <div>
           <label className={label}>Jenis Pekerjaan</label>
-          <input name="jenis_pekerjaan" defaultValue={p.jenis_pekerjaan ?? ""} className={input} />
+          <select name="jenis_pekerjaan" defaultValue={p.jenis_pekerjaan ?? ""} className={input}>
+            <option value="">- Pilih Jenis -</option>
+            <option value="Barang dan Jasa">Barang dan Jasa</option>
+            <option value="Jasa">Jasa</option>
+          </select>
         </div>
         <div>
           <label className={label}>Progress Pekerjaan</label>
