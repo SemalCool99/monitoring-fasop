@@ -3,6 +3,7 @@ import Link from "next/link";
 import { hapusPekerjaan } from "./actions";
 import { bacaSession } from "../../lib/session";
 import HapusButton from "../../components/HapusButton";
+import ExportButton from "../../components/ExportButton";
 import { Plus, Search, Eye, Pencil } from "lucide-react";
 
 const rp = (n: number | null) => (n ? "Rp " + n.toLocaleString("id-ID") : "-");
@@ -53,6 +54,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
   const fPic = sp.pic ?? "";
   const fStatus = sp.status ?? "";
   const fAnggaran = sp.anggaran ?? "";
+  const fTahun = sp.tahun ?? "";
   const page = Math.max(1, Number(sp.page ?? 1));
   const perPage = 10;
 
@@ -62,13 +64,21 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
 
   const daftarPic = [...new Set(semua.map((p) => p.pic).filter(Boolean))] as string[];
   const daftarStatus = [...new Set(semua.map((p) => p.status).filter(Boolean))] as string[];
+  
+  // Ambil daftar tahun unik dari tanggal_awal_kontrak
+  const daftarTahun = [...new Set(
+    semua
+      .map((p) => p.tanggal_awal_kontrak?.getFullYear())
+      .filter((y): y is number => y !== undefined)
+  )].sort((a, b) => b - a);
 
   const tersaring = semua.filter(
     (p) =>
       (!q || p.uraian_pekerjaan.toLowerCase().includes(q) || (p.vendor ?? "").toLowerCase().includes(q)) &&
       (!fPic || p.pic === fPic) &&
       (!fStatus || p.status === fStatus) &&
-      (!fAnggaran || p.anggaran === fAnggaran)
+      (!fAnggaran || p.anggaran === fAnggaran) &&
+      (!fTahun || p.tanggal_awal_kontrak?.getFullYear().toString() === fTahun)
   );
 
   const totalNilai = tersaring.reduce((a, p) => a + (p.nilai_kontrak ?? 0), 0);
@@ -82,6 +92,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
     if (fPic) u.set("pic", fPic);
     if (fStatus) u.set("status", fStatus);
     if (fAnggaran) u.set("anggaran", fAnggaran);
+    if (fTahun) u.set("tahun", fTahun);
     u.set("page", String(hal));
     return `/pekerjaan?${u.toString()}`;
   };
@@ -90,11 +101,16 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
     <div>
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h1 className="text-2xl font-bold">Daftar Pekerjaan ({tersaring.length})</h1>
-        {admin && (
-          <Link href="/pekerjaan/tambah" className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
-            <Plus size={16} /> Tambah
-          </Link>
-        )}
+        <div className="flex gap-2">
+          {admin && (
+            <>
+              <ExportButton tahun={fTahun} />
+              <Link href="/pekerjaan/tambah" className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+                <Plus size={16} /> Tambah
+              </Link>
+            </>
+          )}
+        </div>
       </div>
 
       <form method="GET" className="flex flex-wrap gap-2 mb-4">
@@ -114,6 +130,12 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
           <option value="">Semua Status</option>
           {daftarStatus.map((x) => (
             <option key={x} value={x}>{x}</option>
+          ))}
+        </select>
+        <select name="tahun" defaultValue={fTahun} className={input}>
+          <option value="">Semua Tahun</option>
+          {daftarTahun.map((y) => (
+            <option key={y} value={y}>{y}</option>
           ))}
         </select>
         <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">

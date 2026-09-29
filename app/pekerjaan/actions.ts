@@ -92,3 +92,43 @@ export async function hapusPekerjaan(fd: FormData) {
   await prisma.pekerjaan.delete({ where: { id } });
   revalidatePath("/pekerjaan");
 }
+
+export async function ambilDataExport(tahun?: string) {
+  await wajibAdmin();
+
+  const semua = await prisma.pekerjaan.findMany({
+    orderBy: { id: "desc" },
+    include: { poTermin: { orderBy: { urutan: "asc" } } },
+  });
+
+  const tersaring = tahun && tahun !== ""
+    ? semua.filter((p) => {
+        const tgl = p.tanggal_awal_kontrak;
+        if (!tgl) return false;
+        return tgl.getFullYear().toString() === tahun;
+      })
+    : semua;
+
+  return tersaring.map((p) => ({
+    PIC: p.pic ?? "-",
+    Anggaran: p.anggaran ?? "-",
+    "Uraian Pekerjaan": p.uraian_pekerjaan,
+    "Nomor RAB": p.nomor_rab ?? "-",
+    "Nilai RAB": p.nilai_rab ?? 0,
+    "Nilai Kontrak": p.nilai_kontrak ?? 0,
+    "Jenis Pekerjaan": p.jenis_pekerjaan ?? "-",
+    "Progress (%)": p.progress_pekerjaan ?? "-",
+    Vendor: p.vendor ?? "-",
+    "Tanggal Awal Kontrak": p.tanggal_awal_kontrak ? p.tanggal_awal_kontrak.toLocaleDateString("id-ID") : "-",
+    "Tanggal Akhir Kontrak": p.tanggal_akhir_kontrak ? p.tanggal_akhir_kontrak.toLocaleDateString("id-ID") : "-",
+    "Durasi Kontrak (hari)": p.durasi_kontrak ?? "-",
+    "Nomor Kontrak": p.nomor_kontrak ?? "-",
+    "Nomor Amandemen": p.nomor_amandemen ?? "-",
+    "Tanggal Amandemen": p.tanggal_amandemen ? p.tanggal_amandemen.toLocaleDateString("id-ID") : "-",
+    "Nomor BASTP": p.nomor_bastp ?? "-",
+    "Tanggal BASTP": p.tanggal_bastp ? p.tanggal_bastp.toLocaleDateString("id-ID") : "-",
+    "Purchase Request": p.purchase_request ?? "-",
+    "Purchase Order": p.purchase_order ?? "-",
+    Status: p.status ?? "-",
+  }));
+}
