@@ -46,7 +46,8 @@ const WARNA_ANGGARAN: Record<string, string> = {
 };
 
 const input = "bg-white border border-gray-300 p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700";
-const th = "p-2 text-left sticky top-0 z-10 bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400";
+const th = "p-2 text-left sticky top-0 z-20 bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400 border-b border-gray-200 dark:border-slate-700";
+const td = "p-2 border-b border-gray-200 dark:border-slate-800";
 
 export default async function Pekerjaan({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const sp = await searchParams;
@@ -54,10 +55,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
   const fPic = sp.pic ?? "";
   const fStatus = sp.status ?? "";
   const fAnggaran = sp.anggaran ?? "";
-  
-  // Default ke tahun sekarang jika param 'tahun' tidak ada di URL
   const fTahun = sp.tahun !== undefined ? sp.tahun : String(new Date().getFullYear());
-  
   const page = Math.max(1, Number(sp.page ?? 1));
   const perPage = 10;
 
@@ -67,7 +65,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
 
   const daftarPic = [...new Set(semua.map((p) => p.pic).filter(Boolean))] as string[];
   const daftarStatus = [...new Set(semua.map((p) => p.status).filter(Boolean))] as string[];
-  
+
   const daftarTahun = [...new Set(
     semua
       .map((p) => p.tanggal_awal_kontrak?.getFullYear())
@@ -146,7 +144,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
       </form>
 
       <div className="bg-white border border-gray-200 rounded-xl p-4 max-h-[70vh] overflow-auto dark:bg-slate-900 dark:border-slate-800">
-        <table className="w-full text-sm min-w-[900px]">
+        <table className="w-full text-sm min-w-[900px] border-separate border-spacing-0">
           <thead>
             <tr>
               <th className={th}>PIC</th>
@@ -162,17 +160,17 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
           </thead>
           <tbody>
             {data.map((p) => (
-              <tr key={p.id} className="border-b border-gray-200 hover:bg-gray-50 dark:border-slate-800 dark:hover:bg-slate-800/50">
-                <td className="p-2">{badge(p.pic, WARNA_PIC)}</td>
-                <td className="p-2 text-center">{badge(p.anggaran, WARNA_ANGGARAN)}</td>
-                <td className="p-2">{p.uraian_pekerjaan}</td>
-                <td className="p-2 text-right whitespace-nowrap">{rp(p.nilai_kontrak)}</td>
-                <td className="p-2 whitespace-nowrap">{tgl(p.tanggal_awal_kontrak)}</td>
-                <td className="p-2 whitespace-nowrap">{tgl(p.tanggal_akhir_kontrak)}</td>
-                <td className="p-2 text-center">{badgeSisa(p.tanggal_akhir_kontrak)}</td>
-                <td className="p-2">{badge(p.status, WARNA_STATUS)}</td>
+              <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+                <td className={td}>{badge(p.pic, WARNA_PIC)}</td>
+                <td className={`${td} text-center`}>{badge(p.anggaran, WARNA_ANGGARAN)}</td>
+                <td className={td}>{p.uraian_pekerjaan}</td>
+                <td className={`${td} text-right whitespace-nowrap`}>{rp(p.nilai_kontrak)}</td>
+                <td className={`${td} whitespace-nowrap`}>{tgl(p.tanggal_awal_kontrak)}</td>
+                <td className={`${td} whitespace-nowrap`}>{tgl(p.tanggal_akhir_kontrak)}</td>
+                <td className={`${td} text-center`}>{badgeSisa(p.tanggal_akhir_kontrak)}</td>
+                <td className={td}>{badge(p.status, WARNA_STATUS)}</td>
                 {admin && (
-                  <td className="p-2 text-center whitespace-nowrap">
+                  <td className={`${td} text-center whitespace-nowrap`}>
                     <Link href={`/pekerjaan/${p.id}`} title="Detail" className="text-blue-600 dark:text-blue-400 mr-2">
                       <Eye size={16} className="inline" />
                     </Link>
