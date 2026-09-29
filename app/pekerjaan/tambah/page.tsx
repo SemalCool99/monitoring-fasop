@@ -48,7 +48,7 @@ export default function TambahPekerjaan() {
           <select name="jenis_pekerjaan" className={input}>
             <option value="">- Pilih Jenis -</option>
             <option value="Barang dan Jasa">Barang dan Jasa</option>
-            <option value="Jasa">Jasa</option>
+            <option value="Barang">Barang</option>
           </select>
         </div>
         <div>
