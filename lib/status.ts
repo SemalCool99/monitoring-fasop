@@ -3,7 +3,12 @@ import { prisma } from "./prisma";
 const HARI = 86400000;
 
 export async function sinkronStatus() {
-  const semua = await prisma.pekerjaan.findMany({ include: { poTermin: true } });
+  const semua = await prisma.pekerjaan.findMany({
+    include: {
+      poTermin: true,
+      bast: true,
+    },
+  });
   const sekarang = Date.now();
 
   for (const p of semua) {
@@ -12,7 +17,7 @@ export async function sinkronStatus() {
     let baru: string;
     const akhir = p.tanggal_akhir_kontrak ? p.tanggal_akhir_kontrak.getTime() : null;
 
-    if (p.nomor_bastp || p.tanggal_bastp) baru = "BAST SELESAI";
+    if (p.bast.length > 0) baru = "BAST SELESAI";
     else if (!p.nomor_kontrak && !p.tanggal_awal_kontrak) baru = "BELUM KONTRAK";
     else if (akhir === null) baru = "KONTRAK BERJALAN";
     else if (akhir < sekarang) baru = "TERLAMBAT";
