@@ -84,12 +84,12 @@ export default function TambahPekerjaan() {
           <label className={label}>Tanggal Amandemen</label>
           <input name="tanggal_amandemen" type="date" className={input} />
         </div>
+        <BastEditor initial={[]} />
         <div>
           <label className={label}>Purchase Request</label>
           <input name="purchase_request" className={input} />
         </div>
         <PoTerminEditor initial={[]} />
-        <BastEditor initial={[]} />
         <div>
           <label className={label}>Status</label>
           <select name="status" className={input}>

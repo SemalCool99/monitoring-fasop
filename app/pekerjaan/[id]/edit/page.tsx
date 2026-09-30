@@ -109,12 +109,12 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
           <label className={label}>Tanggal Amandemen</label>
           <input name="tanggal_amandemen" type="date" defaultValue={tglIn(p.tanggal_amandemen)} className={input} />
         </div>
+        <BastEditor initial={initialBast} />
         <div>
           <label className={label}>Purchase Request</label>
           <input name="purchase_request" defaultValue={p.purchase_request ?? ""} className={input} />
         </div>
         <PoTerminEditor initial={initial} />
-        <BastEditor initial={initialBast} />
         <div>
           <label className={label}>Status</label>
           <select name="status" defaultValue={p.status ?? ""} className={input}>
