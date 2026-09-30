@@ -6,7 +6,7 @@ const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "rahasia-fasop
 const HALAMAN_PUBLIK = ["/login"];
 const HALAMAN_ADMIN = ["/users", "/pekerjaan/tambah"];
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const token = req.cookies.get("session")?.value;
 
