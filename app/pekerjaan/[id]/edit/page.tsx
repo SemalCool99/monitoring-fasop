@@ -2,6 +2,7 @@ import { prisma } from "../../../../lib/prisma";
 import { notFound } from "next/navigation";
 import { updatePekerjaan } from "../../actions";
 import PoTerminEditor from "../../../../components/PoTerminEditor";
+import BastEditor from "../../../../components/BastEditor";
 import Script from "next/script";
 
 const input = "bg-white border border-gray-300 p-2 w-full mt-1 rounded-lg dark:bg-slate-800 dark:border-slate-700";
@@ -12,13 +13,21 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
   const { id } = await params;
   const p = await prisma.pekerjaan.findUnique({
     where: { id: Number(id) },
-    include: { poTermin: { orderBy: { urutan: "asc" } } },
+    include: {
+      poTermin: { orderBy: { urutan: "asc" } },
+      bast: { orderBy: { urutan: "asc" } },
+    },
   });
   if (!p) notFound();
 
   const initial = p.poTermin.map((t) => ({
     nomor: t.nomor ?? "",
     nilai: t.nilai != null ? String(t.nilai) : "",
+  }));
+
+  const initialBast = p.bast.map((b) => ({
+    nomor: b.nomor ?? "",
+    tanggal: tglIn(b.tanggal),
   }));
 
   return (
@@ -101,18 +110,11 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
           <input name="tanggal_amandemen" type="date" defaultValue={tglIn(p.tanggal_amandemen)} className={input} />
         </div>
         <div>
-          <label className={label}>Nomor BASTP</label>
-          <input name="nomor_bastp" defaultValue={p.nomor_bastp ?? ""} className={input} />
-        </div>
-        <div>
-          <label className={label}>Tanggal BASTP</label>
-          <input name="tanggal_bastp" type="date" defaultValue={tglIn(p.tanggal_bastp)} className={input} />
-        </div>
-        <div>
           <label className={label}>Purchase Request</label>
           <input name="purchase_request" defaultValue={p.purchase_request ?? ""} className={input} />
         </div>
         <PoTerminEditor initial={initial} />
+        <BastEditor initial={initialBast} />
         <div>
           <label className={label}>Status</label>
           <select name="status" defaultValue={p.status ?? ""} className={input}>

@@ -1,5 +1,6 @@
 import { tambahPekerjaan } from "../actions";
 import PoTerminEditor from "../../../components/PoTerminEditor";
+import BastEditor from "../../../components/BastEditor";
 import Script from "next/script";
 
 const input = "bg-white border border-gray-300 p-2 w-full mt-1 rounded-lg dark:bg-slate-800 dark:border-slate-700";
@@ -84,18 +85,11 @@ export default function TambahPekerjaan() {
           <input name="tanggal_amandemen" type="date" className={input} />
         </div>
         <div>
-          <label className={label}>Nomor BASTP</label>
-          <input name="nomor_bastp" className={input} />
-        </div>
-        <div>
-          <label className={label}>Tanggal BASTP</label>
-          <input name="tanggal_bastp" type="date" className={input} />
-        </div>
-        <div>
           <label className={label}>Purchase Request</label>
           <input name="purchase_request" className={input} />
         </div>
         <PoTerminEditor initial={[]} />
+        <BastEditor initial={[]} />
         <div>
           <label className={label}>Status</label>
           <select name="status" className={input}>

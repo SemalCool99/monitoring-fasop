@@ -23,8 +23,6 @@ model Pekerjaan {
   nomor_kontrak         String?
   nomor_amandemen       String?
   tanggal_amandemen     DateTime?
-  nomor_bastp           String?
-  tanggal_bastp         DateTime?
   purchase_request      String?
   purchase_order        String?
   anggaran              String?
@@ -32,6 +30,7 @@ model Pekerjaan {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
   poTermin              PoTermin[]
+  bast                  Bast[]
 }
 
 model PoTermin {
@@ -40,6 +39,15 @@ model PoTermin {
   urutan      Int
   nomor       String?
   nilai       Float?
+  pekerjaan   Pekerjaan @relation(fields: [pekerjaanId], references: [id], onDelete: Cascade)
+}
+
+model Bast {
+  id          Int       @id @default(autoincrement())
+  pekerjaanId Int
+  urutan      Int
+  nomor       String?
+  tanggal     DateTime?
   pekerjaan   Pekerjaan @relation(fields: [pekerjaanId], references: [id], onDelete: Cascade)
 }
 

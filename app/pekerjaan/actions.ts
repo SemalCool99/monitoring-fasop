@@ -36,8 +36,6 @@ function ambilData(fd: FormData) {
     nomor_kontrak: teks(fd.get("nomor_kontrak")),
     nomor_amandemen: teks(fd.get("nomor_amandemen")),
     tanggal_amandemen: tanggal(fd.get("tanggal_amandemen")),
-    nomor_bastp: teks(fd.get("nomor_bastp")),
-    tanggal_bastp: tanggal(fd.get("tanggal_bastp")),
     purchase_request: teks(fd.get("purchase_request")),
     purchase_order: teks(fd.get("purchase_order")),
     anggaran: teks(fd.get("anggaran")),
@@ -61,13 +59,29 @@ function ambilTermin(fd: FormData) {
   return hasil;
 }
 
+function ambilBast(fd: FormData) {
+  const nomor = fd.getAll("bast_nomor").map((v) => String(v).trim());
+  const tanggal = fd.getAll("bast_tanggal").map((v) => String(v).trim());
+  const hasil: { urutan: number; nomor: string | null; tanggal: Date | null }[] = [];
+  for (let i = 0; i < nomor.length; i++) {
+    if (!nomor[i] && !tanggal[i]) continue;
+    hasil.push({
+      urutan: hasil.length + 1,
+      nomor: nomor[i] || null,
+      tanggal: tanggal[i] !== "" && !isNaN(new Date(tanggal[i]).getTime()) ? new Date(tanggal[i]) : null,
+    });
+  }
+  return hasil;
+}
+
 export async function tambahPekerjaan(fd: FormData) {
   await wajibAdmin();
   const data = ambilData(fd);
   if (!data.uraian_pekerjaan) redirect("/pekerjaan/tambah");
   const termin = ambilTermin(fd);
+  const bast = ambilBast(fd);
   await prisma.pekerjaan.create({
-    data: { ...data, poTermin: { create: termin } },
+    data: { ...data, poTermin: { create: termin }, bast: { create: bast } },
   });
   revalidatePath("/pekerjaan");
   redirect("/pekerjaan");
@@ -78,9 +92,10 @@ export async function updatePekerjaan(fd: FormData) {
   const id = Number(fd.get("id"));
   const data = ambilData(fd);
   const termin = ambilTermin(fd);
+  const bast = ambilBast(fd);
   await prisma.pekerjaan.update({
     where: { id },
-    data: { ...data, poTermin: { deleteMany: {}, create: termin } },
+    data: { ...data, poTermin: { deleteMany: {}, create: termin }, bast: { deleteMany: {}, create: bast } },
   });
   revalidatePath("/pekerjaan");
   redirect(`/pekerjaan/${id}`);
@@ -98,7 +113,10 @@ export async function ambilDataExport(tahun?: string) {
 
   const semua = await prisma.pekerjaan.findMany({
     orderBy: { id: "desc" },
-    include: { poTermin: { orderBy: { urutan: "asc" } } },
+    include: {
+      poTermin: { orderBy: { urutan: "asc" } },
+      bast: { orderBy: { urutan: "asc" } },
+    },
   });
 
   const tersaring = tahun && tahun !== ""
@@ -125,8 +143,9 @@ export async function ambilDataExport(tahun?: string) {
     "Nomor Kontrak": p.nomor_kontrak ?? "-",
     "Nomor Amandemen": p.nomor_amandemen ?? "-",
     "Tanggal Amandemen": p.tanggal_amandemen ? p.tanggal_amandemen.toLocaleDateString("id-ID") : "-",
-    "Nomor BASTP": p.nomor_bastp ?? "-",
-    "Tanggal BASTP": p.tanggal_bastp ? p.tanggal_bastp.toLocaleDateString("id-ID") : "-",
+    "Daftar BAST": p.bast.length
+      ? p.bast.map((b, i) => `${i + 1}. ${b.nomor ?? "-"} (${b.tanggal ? b.tanggal.toLocaleDateString("id-ID") : "-"})`).join("; ")
+      : "-",
     "Purchase Request": p.purchase_request ?? "-",
     "Purchase Order": p.purchase_order ?? "-",
     Status: p.status ?? "-",
