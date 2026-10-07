@@ -121,8 +121,7 @@ export async function ambilDataExport(tahun?: string) {
 
   const tersaring = tahun && tahun !== ""
     ? semua.filter((p) => {
-        const tgl = p.tanggal_awal_kontrak;
-        if (!tgl) return false;
+        const tgl = p.tanggal_awal_kontrak ?? p.createdAt;
         return tgl.getFullYear().toString() === tahun;
       })
     : semua;

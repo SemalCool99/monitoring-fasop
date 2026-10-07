@@ -70,7 +70,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
 
   const daftarTahun = [...new Set(
     semua
-      .map((p) => p.tanggal_awal_kontrak?.getFullYear())
+      .map((p) => (p.tanggal_awal_kontrak ?? p.createdAt).getFullYear())
       .filter((y): y is number => y !== undefined)
   )].sort((a, b) => b - a);
 
@@ -80,7 +80,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
       (!fPic || p.pic === fPic) &&
       (!fStatus || p.status === fStatus) &&
       (!fAnggaran || p.anggaran === fAnggaran) &&
-      (!fTahun || p.tanggal_awal_kontrak?.getFullYear().toString() === fTahun)
+      (!fTahun || (p.tanggal_awal_kontrak ?? p.createdAt).getFullYear().toString() === fTahun)
   );
 
   const totalNilai = tersaring.reduce((a, p) => a + (p.nilai_kontrak ?? 0), 0);

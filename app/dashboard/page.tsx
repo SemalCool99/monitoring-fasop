@@ -10,19 +10,18 @@ const tgl = (d: Date | null) =>
 export default async function Dashboard({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const sp = await searchParams;
   const fTahun = sp.tahun !== undefined ? sp.tahun : String(new Date().getFullYear());
-  
+
   const semua = await prisma.pekerjaan.findMany();
-  
+
   const daftarTahun = [...new Set(
     semua
-      .map((p) => p.tanggal_awal_kontrak?.getFullYear())
+      .map((p) => (p.tanggal_awal_kontrak ?? p.createdAt).getFullYear())
       .filter((y): y is number => y !== undefined)
   )].sort((a, b) => b - a);
-  
+
   const tersaring = fTahun && fTahun !== ""
     ? semua.filter((p) => {
-        const tgl = p.tanggal_awal_kontrak;
-        if (!tgl) return false;
+        const tgl = p.tanggal_awal_kontrak ?? p.createdAt;
         return tgl.getFullYear().toString() === fTahun;
       })
     : semua;
@@ -74,7 +73,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
         <h1 className="text-2xl font-bold">Dashboard</h1>
         <FilterTahunDashboard tahun={fTahun} daftarTahun={daftarTahun} />
       </div>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {kartu.map((k) => (
           <div key={k.label} className={`bg-gradient-to-br ${k.grad} text-white rounded-xl p-4 flex items-center gap-3 shadow-lg`}>
