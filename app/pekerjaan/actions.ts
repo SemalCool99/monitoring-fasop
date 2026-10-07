@@ -84,7 +84,7 @@ export async function tambahPekerjaan(fd: FormData) {
     data: { ...data, poTermin: { create: termin }, bast: { create: bast } },
   });
   revalidatePath("/pekerjaan");
-  redirect("/pekerjaan");
+  redirect("/pekerjaan?sukses=tambah");
 }
 
 export async function updatePekerjaan(fd: FormData) {
@@ -98,7 +98,7 @@ export async function updatePekerjaan(fd: FormData) {
     data: { ...data, poTermin: { deleteMany: {}, create: termin }, bast: { deleteMany: {}, create: bast } },
   });
   revalidatePath("/pekerjaan");
-  redirect(`/pekerjaan/${id}`);
+  redirect(`/pekerjaan/${id}?sukses=edit`);
 }
 
 export async function hapusPekerjaan(fd: FormData) {
@@ -106,6 +106,7 @@ export async function hapusPekerjaan(fd: FormData) {
   const id = Number(fd.get("id"));
   await prisma.pekerjaan.delete({ where: { id } });
   revalidatePath("/pekerjaan");
+  redirect("/pekerjaan?sukses=hapus");
 }
 
 export async function ambilDataExport(tahun?: string) {

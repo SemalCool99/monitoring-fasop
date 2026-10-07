@@ -4,6 +4,7 @@ import { hapusPekerjaan } from "./actions";
 import { bacaSession } from "../../lib/session";
 import HapusButton from "../../components/HapusButton";
 import ExportButton from "../../components/ExportButton";
+import Toast from "../../components/Toast";
 import { Plus, Search, Eye, Pencil } from "lucide-react";
 
 const rp = (n: number | null) => (n ? "Rp " + n.toLocaleString("id-ID") : "-");
@@ -101,6 +102,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
 
   return (
     <div>
+      <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h1 className="text-2xl font-bold">Daftar Pekerjaan ({tersaring.length})</h1>
         <div className="flex gap-2">

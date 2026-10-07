@@ -3,13 +3,21 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Pencil } from "lucide-react";
 import { bacaSession } from "../../../lib/session";
+import Toast from "../../../components/Toast";
 
 const rp = (n: number | null) => "Rp " + (n ?? 0).toLocaleString("id-ID");
 const tgl = (d: Date | null) =>
   d ? d.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) : "-";
 
-export default async function DetailPekerjaan({ params }: { params: Promise<{ id: string }> }) {
+export default async function DetailPekerjaan({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   const { id } = await params;
+  const sp = await searchParams;
   const p = await prisma.pekerjaan.findUnique({
     where: { id: Number(id) },
     include: {
@@ -43,6 +51,7 @@ export default async function DetailPekerjaan({ params }: { params: Promise<{ id
 
   return (
     <div className="max-w-3xl">
+      <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
         <h1 className="text-2xl font-bold">Detail Pekerjaan</h1>
         <div className="flex gap-2">
