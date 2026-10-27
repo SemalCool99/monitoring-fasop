@@ -90,6 +90,11 @@ export async function tambahPekerjaan(fd: FormData) {
 export async function updatePekerjaan(fd: FormData) {
   await wajibAdmin();
   const id = Number(fd.get("id"));
+  if (!id || isNaN(id)) redirect("/pekerjaan");
+
+  const ada = await prisma.pekerjaan.findUnique({ where: { id } });
+  if (!ada) redirect("/pekerjaan");
+
   const data = ambilData(fd);
   const termin = ambilTermin(fd);
   const bast = ambilBast(fd);
@@ -104,6 +109,11 @@ export async function updatePekerjaan(fd: FormData) {
 export async function hapusPekerjaan(fd: FormData) {
   await wajibAdmin();
   const id = Number(fd.get("id"));
+  if (!id || isNaN(id)) redirect("/pekerjaan");
+
+  const ada = await prisma.pekerjaan.findUnique({ where: { id } });
+  if (!ada) redirect("/pekerjaan");
+
   await prisma.pekerjaan.delete({ where: { id } });
   revalidatePath("/pekerjaan");
   redirect("/pekerjaan?sukses=hapus");
