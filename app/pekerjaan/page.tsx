@@ -18,39 +18,39 @@ const badge = (s: string | null, warna: Record<string, string>) => {
 
 const badgeSisa = (d: Date | null, status: string | null) => {
   if (status === "SELESAI" || status === "BAST SELESAI")
-    return <span className="text-gray-400 dark:text-slate-500">-</span>;
-  if (!d) return <span className="text-gray-400 dark:text-slate-500">-</span>;
+    return <span className="text-slate-500">-</span>;
+  if (!d) return <span className="text-slate-500">-</span>;
   const s = Math.ceil((d.getTime() - Date.now()) / 86400000);
   const w =
-    s < 0 ? "bg-red-500/20 text-red-600 dark:text-red-400"
-    : s <= 10 ? "bg-yellow-500/20 text-yellow-600 dark:text-yellow-400"
-    : "bg-green-500/20 text-green-600 dark:text-green-400";
+    s < 0 ? "bg-red-500/20 text-red-400"
+    : s <= 10 ? "bg-yellow-500/20 text-yellow-400"
+    : "bg-green-500/20 text-green-400";
   return <span className={`px-2 py-1 rounded-full text-xs whitespace-nowrap ${w}`}>{s < 0 ? `Lewat ${Math.abs(s)} hr` : `${s} hr`}</span>;
 };
 
 const WARNA_STATUS: Record<string, string> = {
-  SELESAI: "bg-green-500/20 text-green-600 dark:text-green-400",
-  TERLAMBAT: "bg-red-500/20 text-red-600 dark:text-red-400",
-  "KONTRAK BERJALAN": "bg-blue-500/20 text-blue-600 dark:text-blue-400",
-  "HAMPIR BERAKHIR": "bg-yellow-500/20 text-yellow-600 dark:text-yellow-400",
-  "PROSES TAGIHAN": "bg-purple-500/20 text-purple-600 dark:text-purple-400",
-  "BAST SELESAI": "bg-teal-500/20 text-teal-600 dark:text-teal-400",
+  SELESAI: "bg-green-500/20 text-green-400",
+  TERLAMBAT: "bg-red-500/20 text-red-400",
+  "KONTRAK BERJALAN": "bg-blue-500/20 text-blue-400",
+  "HAMPIR BERAKHIR": "bg-yellow-500/20 text-yellow-400",
+  "PROSES TAGIHAN": "bg-purple-500/20 text-purple-400",
+  "BAST SELESAI": "bg-teal-500/20 text-teal-400",
 };
 
 const WARNA_PIC: Record<string, string> = {
-  "RTU 1": "bg-blue-500/20 text-blue-600 dark:text-blue-400",
-  "RTU 2": "bg-indigo-500/20 text-indigo-600 dark:text-indigo-400",
-  SCADATEL: "bg-cyan-500/20 text-cyan-600 dark:text-cyan-400",
+  "RTU 1": "bg-blue-500/20 text-blue-400",
+  "RTU 2": "bg-indigo-500/20 text-indigo-400",
+  SCADATEL: "bg-cyan-500/20 text-cyan-400",
 };
 
 const WARNA_ANGGARAN: Record<string, string> = {
-  AI: "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400",
-  AO: "bg-orange-500/20 text-orange-600 dark:text-orange-400",
+  AI: "bg-emerald-500/20 text-emerald-400",
+  AO: "bg-orange-500/20 text-orange-400",
 };
 
-const input = "bg-white border border-gray-300 p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700";
-const th = "p-2 text-left sticky top-0 z-20 bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400 border-b border-gray-200 dark:border-slate-700";
-const td = "p-2 border-b border-gray-200 dark:border-slate-800";
+const input = "bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500";
+const th = "p-2 text-left sticky top-0 z-20 bg-white/5 text-slate-300 border-b border-white/10";
+const td = "p-2 border-b border-white/10 text-slate-100";
 
 export default async function Pekerjaan({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const sp = await searchParams;
@@ -101,10 +101,10 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
   };
 
   return (
-    <div className="dark:bg-slate-950 dark:text-white min-h-screen p-4">
+    <div className="min-h-screen p-4">
       <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Daftar Pekerjaan ({tersaring.length})</h1>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Daftar Pekerjaan ({tersaring.length})</h1>
         <div className="flex gap-2">
           {admin && (
             <>
@@ -147,7 +147,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
         </button>
       </form>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-4 max-h-[70vh] overflow-auto dark:bg-slate-900 dark:border-slate-800">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 max-h-[70vh] overflow-auto">
         <table className="w-full text-sm min-w-[900px] border-separate border-spacing-0">
           <thead>
             <tr>
@@ -164,7 +164,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
           </thead>
           <tbody>
             {data.map((p) => (
-              <tr key={p.id} className="hover:bg-gray-50 dark:hover:bg-slate-800/50">
+              <tr key={p.id} className="hover:bg-white/5">
                 <td className={td}>{badge(p.pic, WARNA_PIC)}</td>
                 <td className={`${td} text-center`}>{badge(p.anggaran, WARNA_ANGGARAN)}</td>
                 <td className={td}>{p.uraian_pekerjaan}</td>
@@ -175,10 +175,10 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
                 <td className={td}>{badge(p.status, WARNA_STATUS)}</td>
                 {admin && (
                   <td className={`${td} text-center whitespace-nowrap`}>
-                    <Link href={`/pekerjaan/${p.id}`} title="Detail" className="text-blue-600 dark:text-blue-400 mr-2">
+                    <Link href={`/pekerjaan/${p.id}`} title="Detail" className="text-blue-400 mr-2">
                       <Eye size={16} className="inline" />
                     </Link>
-                    <Link href={`/pekerjaan/${p.id}/edit`} title="Edit" className="text-green-600 dark:text-green-400 mr-2">
+                    <Link href={`/pekerjaan/${p.id}/edit`} title="Edit" className="text-green-400 mr-2">
                       <Pencil size={16} className="inline" />
                     </Link>
                     <form action={hapusPekerjaan} className="inline">
@@ -191,19 +191,19 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
             ))}
             {data.length === 0 && (
               <tr>
-                <td colSpan={admin ? 9 : 8} className="p-4 text-center text-gray-500 dark:text-slate-500">Tidak ada data.</td>
+                <td colSpan={admin ? 9 : 8} className="p-4 text-center text-slate-400">Tidak ada data.</td>
               </tr>
             )}
           </tbody>
         </table>
         <div className="flex flex-wrap justify-between items-center gap-2 mt-4">
-          <p className="text-sm text-gray-500 dark:text-slate-400">
-            Total Nilai Kontrak: <span className="font-semibold text-gray-900 dark:text-white">{rp(totalNilai)}</span>
+          <p className="text-sm text-slate-400">
+            Total Nilai Kontrak: <span className="font-semibold text-slate-100">{rp(totalNilai)}</span>
           </p>
           <div className="flex items-center gap-2">
-            {halaman > 1 && <Link href={url(halaman - 1)} className="px-3 py-1 bg-gray-200 rounded-lg dark:bg-slate-800">Sebelumnya</Link>}
-            <span className="text-sm text-gray-500 dark:text-slate-400">Halaman {halaman} / {totalPage}</span>
-            {halaman < totalPage && <Link href={url(halaman + 1)} className="px-3 py-1 bg-gray-200 rounded-lg dark:bg-slate-800">Berikutnya</Link>}
+            {halaman > 1 && <Link href={url(halaman - 1)} className="px-3 py-1 bg-white/10 rounded-lg text-slate-100">Sebelumnya</Link>}
+            <span className="text-sm text-slate-400">Halaman {halaman} / {totalPage}</span>
+            {halaman < totalPage && <Link href={url(halaman + 1)} className="px-3 py-1 bg-white/10 rounded-lg text-slate-100">Berikutnya</Link>}
           </div>
         </div>
       </div>

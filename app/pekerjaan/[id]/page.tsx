@@ -50,39 +50,39 @@ export default async function DetailPekerjaan({
   ];
 
   return (
-    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4 max-w-3xl mx-auto">
+    <div className="min-h-screen p-4 max-w-3xl mx-auto">
       <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Detail Pekerjaan</h1>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Detail Pekerjaan</h1>
         <div className="flex gap-2">
           {admin && (
             <Link href={`/pekerjaan/${p.id}/edit`} className="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
               <Pencil size={16} /> Edit
             </Link>
           )}
-          <Link href="/pekerjaan" className="flex items-center gap-1 bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700">
+          <Link href="/pekerjaan" className="flex items-center gap-1 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg text-slate-100">
             <ArrowLeft size={16} /> Kembali
           </Link>
         </div>
       </div>
-      <div className="bg-white border border-gray-200 rounded-xl p-6 dark:bg-slate-900 dark:border-slate-800">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
         <table className="w-full text-sm">
           <tbody>
             {baris.map(([k, v]) => (
-              <tr key={k} className="border-b border-gray-200 dark:border-slate-800">
-                <td className="p-2 font-semibold w-1/3 text-gray-600 dark:text-slate-300">{k}</td>
-                <td className="p-2">{v}</td>
+              <tr key={k} className="border-b border-white/10">
+                <td className="p-2 font-semibold w-1/3 text-slate-300">{k}</td>
+                <td className="p-2 text-slate-100">{v}</td>
               </tr>
             ))}
-            <tr className="border-b border-gray-200 dark:border-slate-800">
-              <td className="p-2 font-semibold w-1/3 text-gray-600 dark:text-slate-300 align-top">PO Termin</td>
+            <tr className="border-b border-white/10">
+              <td className="p-2 font-semibold w-1/3 text-slate-300 align-top">PO Termin</td>
               <td className="p-2">
                 {p.poTermin.length === 0 ? (
-                  <span>-</span>
+                  <span className="text-slate-400">-</span>
                 ) : (
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="text-gray-500 dark:text-slate-400">
+                      <tr className="text-slate-400">
                         <th className="p-1 text-left">#</th>
                         <th className="p-1 text-left">Nomor PO</th>
                         <th className="p-1 text-right">Nilai</th>
@@ -90,7 +90,7 @@ export default async function DetailPekerjaan({
                     </thead>
                     <tbody>
                       {p.poTermin.map((t) => (
-                        <tr key={t.id}>
+                        <tr key={t.id} className="text-slate-100">
                           <td className="p-1">{t.urutan}</td>
                           <td className="p-1">{t.nomor ?? "-"}</td>
                           <td className="p-1 text-right whitespace-nowrap">{rp(t.nilai)}</td>
@@ -101,15 +101,15 @@ export default async function DetailPekerjaan({
                 )}
               </td>
             </tr>
-            <tr className="border-b border-gray-200 dark:border-slate-800">
-              <td className="p-2 font-semibold w-1/3 text-gray-600 dark:text-slate-300 align-top">BAST</td>
+            <tr className="border-b border-white/10">
+              <td className="p-2 font-semibold w-1/3 text-slate-300 align-top">BAST</td>
               <td className="p-2">
                 {p.bast.length === 0 ? (
-                  <span>-</span>
+                  <span className="text-slate-400">-</span>
                 ) : (
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="text-gray-500 dark:text-slate-400">
+                      <tr className="text-slate-400">
                         <th className="p-1 text-left">#</th>
                         <th className="p-1 text-left">Nomor BAST</th>
                         <th className="p-1 text-left">Tanggal</th>
@@ -117,7 +117,7 @@ export default async function DetailPekerjaan({
                     </thead>
                     <tbody>
                       {p.bast.map((b) => (
-                        <tr key={b.id}>
+                        <tr key={b.id} className="text-slate-100">
                           <td className="p-1">{b.urutan}</td>
                           <td className="p-1">{b.nomor ?? "-"}</td>
                           <td className="p-1 whitespace-nowrap">{tgl(b.tanggal)}</td>
@@ -129,9 +129,9 @@ export default async function DetailPekerjaan({
               </td>
             </tr>
             {p.purchase_order && (
-              <tr className="border-b border-gray-200 dark:border-slate-800">
-                <td className="p-2 font-semibold w-1/3 text-gray-600 dark:text-slate-300">Purchase Order (lama)</td>
-                <td className="p-2">{p.purchase_order}</td>
+              <tr className="border-b border-white/10">
+                <td className="p-2 font-semibold w-1/3 text-slate-300">Purchase Order (lama)</td>
+                <td className="p-2 text-slate-100">{p.purchase_order}</td>
               </tr>
             )}
           </tbody>

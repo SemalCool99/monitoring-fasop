@@ -3,14 +3,14 @@ import PoTerminEditor from "../../../components/PoTerminEditor";
 import BastEditor from "../../../components/BastEditor";
 import Script from "next/script";
 
-const input = "bg-white border border-gray-300 p-2 w-full mt-1 rounded-lg dark:bg-slate-800 dark:border-slate-700";
-const label = "block text-sm font-semibold text-gray-600 dark:text-slate-300";
+const input = "bg-white/10 backdrop-blur-md border border-white/20 p-2 w-full mt-1 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500";
+const label = "block text-sm font-semibold text-slate-300";
 
 export default function TambahPekerjaan() {
   return (
-    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tambah Pekerjaan</h1>
-      <form action={tambahPekerjaan} className="bg-white border border-gray-200 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4 dark:bg-slate-900 dark:border-slate-800">
+    <div className="min-h-screen p-4 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Tambah Pekerjaan</h1>
+      <form action={tambahPekerjaan} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className={label}>PIC</label>
           <select name="pic" className={input}>
@@ -54,7 +54,7 @@ export default function TambahPekerjaan() {
         </div>
         <div>
           <label className={label}>Progress Pekerjaan (%)</label>
-          <input id="progress" name="progress_pekerjaan" readOnly className={`${input} bg-gray-100 dark:bg-slate-700 cursor-not-allowed`} placeholder="Otomatis terisi" />
+          <input id="progress" name="progress_pekerjaan" readOnly className={`${input} bg-white/5 cursor-not-allowed`} placeholder="Otomatis terisi" />
         </div>
         <div>
           <label className={label}>Vendor</label>
@@ -105,7 +105,7 @@ export default function TambahPekerjaan() {
         </div>
         <div className="md:col-span-2 flex gap-2">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">Simpan</button>
-          <a href="/pekerjaan" className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white">Batal</a>
+          <a href="/pekerjaan" className="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-lg text-slate-100">Batal</a>
         </div>
       </form>
 

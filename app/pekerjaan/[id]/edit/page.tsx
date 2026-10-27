@@ -5,8 +5,8 @@ import PoTerminEditor from "../../../../components/PoTerminEditor";
 import BastEditor from "../../../../components/BastEditor";
 import Script from "next/script";
 
-const input = "bg-white border border-gray-300 p-2 w-full mt-1 rounded-lg dark:bg-slate-800 dark:border-slate-700";
-const label = "block text-sm font-semibold text-gray-600 dark:text-slate-300";
+const input = "bg-white/10 backdrop-blur-md border border-white/20 p-2 w-full mt-1 rounded-lg text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500";
+const label = "block text-sm font-semibold text-slate-300";
 const tglIn = (d: Date | null) => (d ? d.toISOString().slice(0, 10) : "");
 
 export default async function EditPekerjaan({ params }: { params: Promise<{ id: string }> }) {
@@ -31,9 +31,9 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
   }));
 
   return (
-    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Edit Pekerjaan</h1>
-      <form action={updatePekerjaan} className="bg-white border border-gray-200 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4 dark:bg-slate-900 dark:border-slate-800">
+    <div className="min-h-screen p-4 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Edit Pekerjaan</h1>
+      <form action={updatePekerjaan} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         <input type="hidden" name="id" value={p.id} />
         <input type="hidden" name="purchase_order" value={p.purchase_order ?? ""} />
         <div>
@@ -79,7 +79,7 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
         </div>
         <div>
           <label className={label}>Progress Pekerjaan (%)</label>
-          <input id="progress" name="progress_pekerjaan" readOnly defaultValue={p.progress_pekerjaan ?? ""} className={`${input} bg-gray-100 dark:bg-slate-700 cursor-not-allowed`} />
+          <input id="progress" name="progress_pekerjaan" readOnly defaultValue={p.progress_pekerjaan ?? ""} className={`${input} bg-white/5 cursor-not-allowed`} />
         </div>
         <div>
           <label className={label}>Vendor</label>
@@ -130,7 +130,7 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
         </div>
         <div className="md:col-span-2 flex gap-2">
           <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Simpan Perubahan</button>
-          <a href={`/pekerjaan/${p.id}`} className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white">Batal</a>
+          <a href={`/pekerjaan/${p.id}`} className="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-lg text-slate-100">Batal</a>
         </div>
       </form>
 

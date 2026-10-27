@@ -3,17 +3,17 @@ import { tambahUser, hapusUser } from "./actions";
 import HapusButton from "../../components/HapusButton";
 import { UserPlus } from "lucide-react";
 
-const input = "bg-white border border-gray-300 p-2 rounded-lg dark:bg-slate-800 dark:border-slate-700";
-const th = "p-2 text-left bg-gray-50 dark:bg-slate-800 text-gray-500 dark:text-slate-400";
+const input = "bg-white/10 backdrop-blur-md border border-white/20 p-2 rounded-lg text-slate-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500";
+const th = "p-2 text-left bg-white/5 text-slate-300 border-b border-white/10";
 
 export default async function Users() {
   const users = await prisma.user.findMany({ orderBy: { id: "asc" } });
 
   return (
-    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Manajemen Users ({users.length})</h1>
+    <div className="min-h-screen p-4">
+      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Manajemen Users ({users.length})</h1>
 
-      <form action={tambahUser} className="flex flex-wrap gap-2 mb-4 bg-white border border-gray-200 rounded-xl p-4 dark:bg-slate-900 dark:border-slate-800">
+      <form action={tambahUser} className="flex flex-wrap gap-2 mb-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
         <input name="username" placeholder="Username baru" className={`${input} flex-1 min-w-[150px]`} required />
         <input name="password" type="password" placeholder="Password" className={`${input} flex-1 min-w-[150px]`} required />
         <select name="role" className={input}>
@@ -25,7 +25,7 @@ export default async function Users() {
         </button>
       </form>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-4 overflow-x-auto dark:bg-slate-900 dark:border-slate-800">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 overflow-x-auto">
         <table className="w-full text-sm min-w-[400px]">
           <thead>
             <tr>
@@ -37,11 +37,11 @@ export default async function Users() {
           </thead>
           <tbody>
             {users.map((u) => (
-              <tr key={u.id} className="border-b border-gray-200 dark:border-slate-800">
+              <tr key={u.id} className="border-b border-white/10 text-slate-100">
                 <td className="p-2">{u.id}</td>
                 <td className="p-2 font-semibold">{u.username}</td>
                 <td className="p-2">
-                  <span className={`px-2 py-1 rounded-full text-xs ${u.role === "ADMIN" ? "bg-purple-500/20 text-purple-600 dark:text-purple-400" : "bg-blue-500/20 text-blue-600 dark:text-blue-400"}`}>
+                  <span className={`px-2 py-1 rounded-full text-xs ${u.role === "ADMIN" ? "bg-purple-500/20 text-purple-400" : "bg-blue-500/20 text-blue-400"}`}>
                     {u.role}
                   </span>
                 </td>

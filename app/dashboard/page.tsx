@@ -68,9 +68,9 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
   ];
 
   return (
-    <div className="dark:bg-slate-950 dark:text-white min-h-screen p-4">
+    <div className="min-h-screen p-4">
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+        <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Dashboard</h1>
         <FilterTahunDashboard tahun={fTahun} daftarTahun={daftarTahun} />
       </div>
 
@@ -87,14 +87,14 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
       </div>
 
       {peringatan.length > 0 && (
-        <div className="mt-4 bg-white border border-gray-200 rounded-xl p-4 dark:bg-slate-900 dark:border-slate-800">
-          <h3 className="font-semibold mb-2 flex items-center gap-2">
+        <div className="mt-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+          <h3 className="font-semibold mb-2 flex items-center gap-2 text-slate-100">
             <AlertTriangle className="text-red-500" size={18} /> Peringatan Kontrak (≤ 10 hari)
           </h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-gray-500 border-b border-gray-200 dark:text-slate-400 dark:border-slate-800">
+                <tr className="text-slate-400 border-b border-white/10">
                   <th className="p-2 text-left">PIC</th>
                   <th className="p-2 text-left">Nama Pekerjaan</th>
                   <th className="p-2 text-left">Akhir Kontrak</th>
@@ -103,12 +103,12 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
               </thead>
               <tbody>
                 {peringatan.map(({ p, sisa }) => (
-                  <tr key={p.id} className="border-b border-gray-200 dark:border-slate-800">
+                  <tr key={p.id} className="border-b border-white/10 text-slate-100">
                     <td className="p-2">{p.pic}</td>
                     <td className="p-2">{p.uraian_pekerjaan}</td>
                     <td className="p-2 whitespace-nowrap">{tgl(p.tanggal_akhir_kontrak)}</td>
                     <td className="p-2 whitespace-nowrap">
-                      <span className={`font-semibold ${sisa < 0 ? "text-red-500" : "text-yellow-500"}`}>
+                      <span className={`font-semibold ${sisa < 0 ? "text-red-400" : "text-yellow-400"}`}>
                         {sisa < 0 ? `Lewat ${Math.abs(sisa)} hari` : `Sisa ${sisa} hari`}
                       </span>
                     </td>
@@ -122,12 +122,12 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
       <Grafik bar={bar} pie={pie} />
 
-      <div className="mt-4 bg-white border border-gray-200 rounded-xl p-4 dark:bg-slate-900 dark:border-slate-800">
-        <h3 className="font-semibold mb-2">Ringkasan per PIC</h3>
+      <div className="mt-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+        <h3 className="font-semibold mb-2 text-slate-100">Ringkasan per PIC</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-gray-500 border-b border-gray-200 dark:text-slate-400 dark:border-slate-800">
+              <tr className="text-slate-400 border-b border-white/10">
                 <th className="p-2 text-left">PIC</th>
                 <th className="p-2 text-center">Jumlah Pekerjaan</th>
                 <th className="p-2 text-right">Total RAB</th>
@@ -136,7 +136,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
             </thead>
             <tbody>
               {ringkasan.map((r) => (
-                <tr key={r.pic} className="border-b border-gray-200 dark:border-slate-800">
+                <tr key={r.pic} className="border-b border-white/10 text-slate-100">
                   <td className="p-2 font-semibold">{r.pic}</td>
                   <td className="p-2 text-center">{r.jumlah}</td>
                   <td className="p-2 text-right whitespace-nowrap">{rp(r.rab)}</td>
