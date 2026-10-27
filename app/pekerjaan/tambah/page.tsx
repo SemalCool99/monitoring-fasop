@@ -8,8 +8,8 @@ const label = "block text-sm font-semibold text-gray-600 dark:text-slate-300";
 
 export default function TambahPekerjaan() {
   return (
-    <div className="max-w-3xl">
-      <h1 className="text-2xl font-bold mb-4">Tambah Pekerjaan</h1>
+    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Tambah Pekerjaan</h1>
       <form action={tambahPekerjaan} className="bg-white border border-gray-200 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4 dark:bg-slate-900 dark:border-slate-800">
         <div>
           <label className={label}>PIC</label>
@@ -105,7 +105,7 @@ export default function TambahPekerjaan() {
         </div>
         <div className="md:col-span-2 flex gap-2">
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">Simpan</button>
-          <a href="/pekerjaan" className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700">Batal</a>
+          <a href="/pekerjaan" className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white">Batal</a>
         </div>
       </form>
 

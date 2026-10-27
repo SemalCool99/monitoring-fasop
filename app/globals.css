@@ -33,3 +33,7 @@ body:not(:has(.sidebar)) {
 .orb1 { animation: float1 8s ease-in-out infinite; }
 .orb2 { animation: float2 10s ease-in-out infinite; }
 .orb3 { animation: float3 7s ease-in-out infinite; }
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+}

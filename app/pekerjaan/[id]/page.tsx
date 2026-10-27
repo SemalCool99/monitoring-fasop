@@ -50,10 +50,10 @@ export default async function DetailPekerjaan({
   ];
 
   return (
-    <div className="max-w-3xl">
+    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4 max-w-3xl mx-auto">
       <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold">Detail Pekerjaan</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Detail Pekerjaan</h1>
         <div className="flex gap-2">
           {admin && (
             <Link href={`/pekerjaan/${p.id}/edit`} className="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">

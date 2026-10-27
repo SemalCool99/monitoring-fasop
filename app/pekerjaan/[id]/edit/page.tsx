@@ -31,8 +31,8 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
   }));
 
   return (
-    <div className="max-w-3xl">
-      <h1 className="text-2xl font-bold mb-4">Edit Pekerjaan</h1>
+    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4 max-w-3xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Edit Pekerjaan</h1>
       <form action={updatePekerjaan} className="bg-white border border-gray-200 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4 dark:bg-slate-900 dark:border-slate-800">
         <input type="hidden" name="id" value={p.id} />
         <input type="hidden" name="purchase_order" value={p.purchase_order ?? ""} />
@@ -130,7 +130,7 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
         </div>
         <div className="md:col-span-2 flex gap-2">
           <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg">Simpan Perubahan</button>
-          <a href={`/pekerjaan/${p.id}`} className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700">Batal</a>
+          <a href={`/pekerjaan/${p.id}`} className="bg-gray-200 hover:bg-gray-300 px-6 py-2 rounded-lg dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-white">Batal</a>
         </div>
       </form>
 

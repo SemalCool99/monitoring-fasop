@@ -10,7 +10,7 @@ export default async function Users() {
   const users = await prisma.user.findMany({ orderBy: { id: "asc" } });
 
   return (
-    <div>
+    <div className="dark:bg-slate-950 dark:text-slate-100 min-h-screen p-4">
       <h1 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Manajemen Users ({users.length})</h1>
 
       <form action={tambahUser} className="flex flex-wrap gap-2 mb-4 bg-white border border-gray-200 rounded-xl p-4 dark:bg-slate-900 dark:border-slate-800">
