@@ -1,7 +1,11 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const SECRET = new TextEncoder().encode(process.env.JWT_SECRET || "rahasia-fasop");
+if (!process.env.JWT_SECRET) {
+  throw new Error("JWT_SECRET belum di-set di environment variable!");
+}
+
+const SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
 
 export async function buatSession(role: string, username: string) {
   const token = await new SignJWT({ role, username })
