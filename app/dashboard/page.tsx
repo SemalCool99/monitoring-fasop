@@ -68,9 +68,9 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
   ];
 
   return (
-    <div>
+    <div className="dark:bg-slate-950 dark:text-white min-h-screen p-4">
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
         <FilterTahunDashboard tahun={fTahun} daftarTahun={daftarTahun} />
       </div>
 

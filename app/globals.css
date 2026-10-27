@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body:not(:has(.sidebar)) {
+  background: transparent !important;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.15; }
+  33% { transform: translateY(-40px) translateX(20px); opacity: 0.25; }
+  66% { transform: translateY(20px) translateX(-15px); opacity: 0.1; }
+}
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.1; }
+  33% { transform: translateY(30px) translateX(-25px); opacity: 0.2; }
+  66% { transform: translateY(-20px) translateX(20px); opacity: 0.15; }
+}
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.12; }
+  50% { transform: translateY(-35px) translateX(30px); opacity: 0.22; }
+}
+.bg-animated {
+  background: linear-gradient(-45deg, #0f172a, #1e1b4b, #0f172a, #1e3a5f, #0f172a);
+  background-size: 400% 400%;
+  animation: gradientShift 12s ease infinite;
+}
+.orb1 { animation: float1 8s ease-in-out infinite; }
+.orb2 { animation: float2 10s ease-in-out infinite; }
+.orb3 { animation: float3 7s ease-in-out infinite; }

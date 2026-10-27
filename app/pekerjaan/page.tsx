@@ -101,10 +101,10 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
   };
 
   return (
-    <div>
+    <div className="dark:bg-slate-950 dark:text-white min-h-screen p-4">
       <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold">Daftar Pekerjaan ({tersaring.length})</h1>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Daftar Pekerjaan ({tersaring.length})</h1>
         <div className="flex gap-2">
           {admin && (
             <>
