@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-body:not(:has(.sidebar)) {
-  background: transparent !important;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100vh;
 }
 
 @keyframes gradientShift {
@@ -33,7 +41,3 @@ body:not(:has(.sidebar)) {
 .orb1 { animation: float1 8s ease-in-out infinite; }
 .orb2 { animation: float2 10s ease-in-out infinite; }
 .orb3 { animation: float3 7s ease-in-out infinite; }
-html, body {
-  margin: 0 !important;
-  padding: 0 !important;
-}
