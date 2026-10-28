@@ -9,8 +9,8 @@ const label = "block text-sm font-semibold text-slate-300";
 export default function TambahPekerjaan() {
   return (
     <div className="min-h-screen p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Tambah Pekerjaan</h1>
-      <form action={tambahPekerjaan} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 anim-masuk">Tambah Pekerjaan</h1>
+      <form action={tambahPekerjaan} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4 anim-masuk anim-1">
         <div>
           <label className={label}>PIC</label>
           <select name="pic" className={input}>

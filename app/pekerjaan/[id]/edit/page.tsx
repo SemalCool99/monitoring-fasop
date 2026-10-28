@@ -32,8 +32,8 @@ export default async function EditPekerjaan({ params }: { params: Promise<{ id: 
 
   return (
     <div className="min-h-screen p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Edit Pekerjaan</h1>
-      <form action={updatePekerjaan} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 anim-masuk">Edit Pekerjaan</h1>
+      <form action={updatePekerjaan} className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 grid grid-cols-1 md:grid-cols-2 gap-4 anim-masuk anim-1">
         <input type="hidden" name="id" value={p.id} />
         <input type="hidden" name="purchase_order" value={p.purchase_order ?? ""} />
         <div>

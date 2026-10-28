@@ -11,21 +11,21 @@ export default async function Users() {
 
   return (
     <div className="min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Manajemen Users ({users.length})</h1>
+      <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 anim-masuk">Manajemen Users ({users.length})</h1>
 
-      <form action={tambahUser} className="flex flex-wrap gap-2 mb-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+      <form action={tambahUser} className="flex flex-wrap gap-2 mb-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 anim-masuk anim-1">
         <input name="username" placeholder="Username baru" className={`${input} flex-1 min-w-[150px]`} required />
         <input name="password" type="password" placeholder="Password" className={`${input} flex-1 min-w-[150px]`} required />
         <select name="role" className={input}>
           <option value="USER">USER</option>
           <option value="ADMIN">ADMIN</option>
         </select>
-        <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+        <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition active:scale-95">
           <UserPlus size={16} /> Tambah
         </button>
       </form>
 
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 overflow-x-auto">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 overflow-x-auto anim-masuk anim-2">
         <table className="w-full text-sm min-w-[400px]">
           <thead>
             <tr>

@@ -8,7 +8,7 @@ const rp = (n: number) => "Rp " + n.toLocaleString("id-ID");
 export default function Grafik({ bar, pie }: { bar: { name: string; total: number }[]; pie: { name: string; value: number }[] }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 anim-masuk anim-5">
         <h3 className="font-semibold mb-2 text-slate-100">Nilai Kontrak per PIC</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
@@ -21,7 +21,7 @@ export default function Grafik({ bar, pie }: { bar: { name: string; total: numbe
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 anim-masuk anim-5">
         <h3 className="font-semibold mb-2 text-slate-100">Komposisi Status</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">

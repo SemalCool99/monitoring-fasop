@@ -134,3 +134,45 @@ html:not(.dark) .text-indigo-400 { color: #4338ca; }
 html:not(.dark) .text-cyan-400 { color: #0e7490; }
 html:not(.dark) .text-emerald-400 { color: #047857; }
 html:not(.dark) .text-orange-400 { color: #c2410c; }
+
+/* ===== Custom Scrollbar ===== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100, 116, 139, 0.5) transparent;
+}
+.dark * {
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(100, 116, 139, 0.5);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.8);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.3);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.5);
+}
+
+/* ===== Animasi Masuk ===== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.anim-masuk { animation: fadeInUp 0.5s ease-out both; }
+.anim-1 { animation-delay: 0.08s; }
+.anim-2 { animation-delay: 0.16s; }
+.anim-5 { animation-delay: 0.3s; }
+@media (prefers-reduced-motion: reduce) {
+  .anim-masuk { animation: none; }
+}

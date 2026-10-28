@@ -70,13 +70,13 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
   return (
     <div className="min-h-screen p-4">
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Dashboard</h1>
+        <h1 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 anim-masuk">Dashboard</h1>
         <FilterTahunDashboard tahun={fTahun} daftarTahun={daftarTahun} />
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        {kartu.map((k) => (
-          <div key={k.label} className={`bg-gradient-to-br ${k.grad} text-white rounded-xl p-4 flex items-center gap-3 shadow-lg`}>
+        {kartu.map((k, i) => (
+          <div key={k.label} className={`bg-gradient-to-br ${k.grad} text-white rounded-xl p-4 flex items-center gap-3 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl anim-masuk`} style={{ animationDelay: `${0.1 + i * 0.08}s` }}>
             <k.Icon size={32} className="text-white/80 shrink-0" />
             <div className="min-w-0">
               <p className="text-white/80 text-sm">{k.label}</p>
@@ -87,7 +87,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
       </div>
 
       {peringatan.length > 0 && (
-        <div className="mt-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+        <div className="mt-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 anim-masuk anim-5">
           <h3 className="font-semibold mb-2 flex items-center gap-2 text-slate-100">
             <AlertTriangle className="text-red-500" size={18} /> Peringatan Kontrak (≤ 10 hari)
           </h3>
@@ -122,7 +122,7 @@ export default async function Dashboard({ searchParams }: { searchParams: Promis
 
       <Grafik bar={bar} pie={pie} />
 
-      <div className="mt-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4">
+      <div className="mt-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 anim-masuk anim-5">
         <h3 className="font-semibold mb-2 text-slate-100">Ringkasan per PIC</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

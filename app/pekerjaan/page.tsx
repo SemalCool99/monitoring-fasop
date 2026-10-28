@@ -104,12 +104,12 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
     <div className="min-h-screen p-4">
       <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Daftar Pekerjaan ({tersaring.length})</h1>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 anim-masuk">Daftar Pekerjaan ({tersaring.length})</h1>
         <div className="flex gap-2">
           {admin && (
             <>
               <ExportButton tahun={fTahun} />
-              <Link href="/pekerjaan/tambah" className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+              <Link href="/pekerjaan/tambah" className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition active:scale-95">
                 <Plus size={16} /> Tambah
               </Link>
             </>
@@ -117,7 +117,7 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
         </div>
       </div>
 
-      <form method="GET" className="flex flex-wrap gap-2 mb-4">
+      <form method="GET" className="flex flex-wrap gap-2 mb-4 anim-masuk anim-1">
         <input name="q" defaultValue={sp.q ?? ""} placeholder="Cari pekerjaan / vendor..." className={`${input} flex-1 min-w-[200px]`} />
         <select name="pic" defaultValue={fPic} className={input}>
           <option value="">Semua PIC</option>
@@ -142,12 +142,12 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
             <option key={y} value={y}>{y}</option>
           ))}
         </select>
-        <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+        <button className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition active:scale-95">
           <Search size={16} /> Cari
         </button>
       </form>
 
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 max-h-[70vh] overflow-auto">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 max-h-[70vh] overflow-auto anim-masuk anim-2">
         <table className="w-full text-sm min-w-[900px] border-separate border-spacing-0">
           <thead>
             <tr>
@@ -163,8 +163,8 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
             </tr>
           </thead>
           <tbody>
-            {data.map((p) => (
-              <tr key={p.id} className="hover:bg-white/5">
+            {data.map((p, i) => (
+              <tr key={p.id} className="transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/10 anim-masuk" style={{ animationDelay: `${0.2 + i * 0.04}s` }}>
                 <td className={td}>{badge(p.pic, WARNA_PIC)}</td>
                 <td className={`${td} text-center`}>{badge(p.anggaran, WARNA_ANGGARAN)}</td>
                 <td className={td}>{p.uraian_pekerjaan}</td>
@@ -175,10 +175,10 @@ export default async function Pekerjaan({ searchParams }: { searchParams: Promis
                 <td className={td}>{badge(p.status, WARNA_STATUS)}</td>
                 {admin && (
                   <td className={`${td} text-center whitespace-nowrap`}>
-                    <Link href={`/pekerjaan/${p.id}`} title="Detail" className="text-blue-400 mr-2">
+                    <Link href={`/pekerjaan/${p.id}`} title="Detail" className="text-blue-400 mr-2 inline-flex transition-transform duration-200 hover:scale-125">
                       <Eye size={16} className="inline" />
                     </Link>
-                    <Link href={`/pekerjaan/${p.id}/edit`} title="Edit" className="text-green-400 mr-2">
+                    <Link href={`/pekerjaan/${p.id}/edit`} title="Edit" className="text-green-400 mr-2 inline-flex transition-transform duration-200 hover:scale-125">
                       <Pencil size={16} className="inline" />
                     </Link>
                     <form action={hapusPekerjaan} className="inline">

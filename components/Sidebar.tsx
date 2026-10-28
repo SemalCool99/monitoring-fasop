@@ -2,14 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { logout } from "../app/login/actions";
 import { gantiTema } from "../lib/tema";
 import { LayoutDashboard, Briefcase, LogOut, Sun, Moon, Users, ChevronsLeft, ChevronsRight } from "lucide-react";
 
 export default function Sidebar({ role, tema }: { role: string; tema: string }) {
   const [ciut, setCiut] = useState(false);
+  const pathname = usePathname();
 
-  const item = `flex items-center gap-2 p-2 rounded-lg text-gray-700 hover:bg-black/5 dark:text-slate-300 dark:hover:bg-white/10 ${ciut ? "justify-center" : ""}`;
+  const aktif = (href: string) => pathname === href || pathname.startsWith(href + "/");
+
+  const item = (href: string) =>
+    `flex items-center gap-2 p-2 rounded-lg border transition-colors ${
+      aktif(href)
+        ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 border-blue-500/40 text-blue-700 dark:text-blue-300 font-semibold"
+        : "border-transparent text-gray-700 hover:bg-black/5 dark:text-slate-300 dark:hover:bg-white/10"
+    } ${ciut ? "justify-center" : ""}`;
 
   return (
     <aside className={`${ciut ? "md:w-20" : "md:w-64"} w-full bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl border-r border-gray-200/60 dark:border-white/10 text-gray-900 dark:text-slate-100 p-4 flex flex-col md:min-h-screen transition-all duration-300`}>
@@ -29,14 +38,14 @@ export default function Sidebar({ role, tema }: { role: string; tema: string }) 
       </div>
 
       <nav className="flex md:flex-col flex-wrap gap-1">
-        <Link href="/dashboard" className={item} title="Dashboard">
+        <Link href="/dashboard" className={item("/dashboard")} title="Dashboard">
           <LayoutDashboard size={18} /> {!ciut && "Dashboard"}
         </Link>
-        <Link href="/pekerjaan" className={item} title="Pekerjaan">
+        <Link href="/pekerjaan" className={item("/pekerjaan")} title="Pekerjaan">
           <Briefcase size={18} /> {!ciut && "Pekerjaan"}
         </Link>
         {role === "ADMIN" && (
-          <Link href="/users" className={item} title="Users">
+          <Link href="/users" className={item("/users")} title="Users">
             <Users size={18} /> {!ciut && "Users"}
           </Link>
         )}

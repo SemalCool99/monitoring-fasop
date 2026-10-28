@@ -53,7 +53,7 @@ export default async function DetailPekerjaan({
     <div className="min-h-screen p-4 max-w-3xl mx-auto">
       <Toast kode={sp.sukses ?? null} />
       <div className="flex flex-wrap justify-between items-center gap-2 mb-4">
-        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500">Detail Pekerjaan</h1>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 anim-masuk">Detail Pekerjaan</h1>
         <div className="flex gap-2">
           {admin && (
             <Link href={`/pekerjaan/${p.id}/edit`} className="flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
@@ -65,7 +65,7 @@ export default async function DetailPekerjaan({
           </Link>
         </div>
       </div>
-      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6">
+      <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-6 anim-masuk anim-1">
         <table className="w-full text-sm">
           <tbody>
             {baris.map(([k, v]) => (
